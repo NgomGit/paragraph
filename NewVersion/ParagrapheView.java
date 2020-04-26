@@ -30,6 +30,9 @@ public class ParagrapheView extends JPanel {
     protected Livre livre;
     // La combobox des paragraphes à ajouter
     protected JComboBox<Paragraphe> paragrahes;
+    
+    //le numero des paragraphs
+    protected String[] paraNumList ;
 
     public ParagrapheView(MonInterface i, Livre livre, Paragraphe courant){
         this._interface = i;
@@ -59,8 +62,13 @@ public class ParagrapheView extends JPanel {
         for(JButton b : choix){
             buttons.add(b);
         }
-        Paragraphe[] tmp = new Paragraphe[0];
-        paragrahes = new JComboBox<>(livre.getListeParagraphe().toArray(tmp));
+        
+        
+        //Paragraphe[] tmp = new Paragraphe[0];
+        
+        getParagraphNum(livre.getListeParagraphe());
+        
+        paragrahes = new JComboBox(this.paraNumList);
         // ActionListener de la Combobox : un clic sur un item ajoute un choix
         // (une Reponse) au paragraphe courant et un bouton à la vue du paragraphe
         paragrahes.addActionListener(new ActionListener() {
@@ -97,6 +105,24 @@ public class ParagrapheView extends JPanel {
 
     public ArrayList<JButton> getChoix(){
         return this.choix;
+    }
+    
+    public String[] getParagraphNum(ArrayList<Paragraphe> paragraphs){
+    	
+    	String paraNumPrefix = "Paragraph ";
+    	int nunmberOfPara = paragraphs.size();
+    	this.paraNumList = new String[nunmberOfPara];
+    	
+    	//parcourir l'ensemble des paragraph pour recuperer leurs index
+    	for (int i =0; i < nunmberOfPara ; i++) {
+    		
+    		paraNumList [i] =paraNumPrefix + (i+1);
+    	}
+    	//Dans le cas où il n'y a pas de paragraph dans le livre 
+    	//que l'utilisateur puisse voir un message lui montrant cela
+    	if (nunmberOfPara == 0) paraNumList [0] ="Pas de paragraph dans le livre";
+    	
+    return paraNumList;
     }
     
     public void save(){
