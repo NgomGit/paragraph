@@ -75,7 +75,10 @@ public class ParagrapheView extends JPanel {
 
                 public void actionPerformed(ActionEvent e) {
                     JComboBox cb = (JComboBox)e.getSource();
-                    Paragraphe p = (Paragraphe)cb.getSelectedItem();
+                    int index =Integer.parseInt(((String) cb.getSelectedItem()).split(" ")[1])  ;
+          
+                    System.out.println(index);
+                    Paragraphe p = livre.getListeParagraphe().get(index-1);
                     Reponse r = new Reponse("Choix " + courant.getReponses().size(), p);
                     courant.add(r);
                     JButton b = new JButton(r.getTexte());
