@@ -51,6 +51,13 @@ public class Paragraphe implements Serializable{
     return this.reponses;
   }
 
+  public void removeResponse(int index) {
+	  reponses.remove(index);
+  }
+  
+  public void removeAllResponses() {
+	  reponses.removeAll(reponses);
+  }
   public String getQuestion(){
     return this.question;
   }

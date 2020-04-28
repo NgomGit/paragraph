@@ -170,4 +170,11 @@ public class MonInterface extends JFrame implements ActionListener{
         }
       }
     }
+    
+    public Paragraphe getPrevPara() {
+    	
+    	int lastIdx = precedents.size() -1;
+    	
+    	return precedents.get(lastIdx);
+    }
 }

@@ -20,4 +20,6 @@ public class Reponse implements Serializable {
   public Paragraphe getSuivant(){
     return suivant;
   }
+  
+  
 }

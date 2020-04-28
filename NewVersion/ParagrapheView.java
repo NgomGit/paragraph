@@ -29,7 +29,7 @@ public class ParagrapheView extends JPanel {
     // Le livre courant
     protected Livre livre;
     // La combobox des paragraphes à ajouter
-    protected JComboBox<Paragraphe> paragrahes;
+    protected JComboBox<String> paragrahes;
     
     //le numero des paragraphs
     protected String[] paraNumList ;
@@ -74,8 +74,10 @@ public class ParagrapheView extends JPanel {
         paragrahes.addActionListener(new ActionListener() {
 
                 public void actionPerformed(ActionEvent e) {
+                	
                     JComboBox cb = (JComboBox)e.getSource();
-                    int index =Integer.parseInt(((String) cb.getSelectedItem()).split(" ")[1])  ;
+                 
+                    int index = retrieveIndexFromString(cb.getSelectedItem().toString());
           
                     System.out.println(index);
                     Paragraphe p = livre.getListeParagraphe().get(index-1);
@@ -87,9 +89,73 @@ public class ParagrapheView extends JPanel {
                     // paragraphe correspondant via un ActionListener
                     // TODO Trouver un moyen de supprimer le lien (la réponse)
                     // avec ce paragraphe (clic droit sur le bouton ?)
+                    
+                    b.addMouseListener(new MouseListener() {
+
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							// TODO Auto-generated method stub
+							
+							//Manage the right click
+							if (SwingUtilities.isRightMouseButton(e) && e.getClickCount() == 1) {
+									// whatever
+								JButton but = (JButton) e.getSource();
+								//take the index of the paragraph 
+								int paraIndex = retrieveIndexFromString(but.getText());
+								//remove the paragraph from the book 
+								// and update the bottom panel
+								updateBottomPanel(paraIndex,but);
+								
+							}
+							
+						
+						}
+
+						private void updateBottomPanel(int paraIndex,JButton b) {
+							// TODO Auto-generated method stub
+							
+							courant.removeAllResponses();
+							choix.remove(paraIndex);
+							livre.getListeParagraphe().remove(paraIndex);
+							getParagraphNum(livre.getListeParagraphe());
+							
+						
+							buttons.remove(b);
+							paragrahes.remove(paraIndex);
+							repaint();
+							revalidate();
+							
+						}
+
+						@Override
+						public void mousePressed(MouseEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
+
+						@Override
+						public void mouseReleased(MouseEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
+
+						@Override
+						public void mouseEntered(MouseEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
+
+						@Override
+						public void mouseExited(MouseEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
+                    	
+                    });
                     b.addActionListener(new ActionListener(){
 
                             public void actionPerformed(ActionEvent e) {
+                            
                                 _interface.loadParagrapheView(p);
                             }
 
@@ -105,7 +171,13 @@ public class ParagrapheView extends JPanel {
         add(buttons,BorderLayout.SOUTH);
         
     }
+    
+    //this function helps to retrieve the index of the element
 
+    public int retrieveIndexFromString(String text) {
+    	return Integer.parseInt(text.split(" ")[1])  ;
+    }
+    
     public ArrayList<JButton> getChoix(){
         return this.choix;
     }
